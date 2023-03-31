@@ -1,0 +1,248 @@
+JAVA
+
+Clase 1/2
+    Objetos que intercambian mensajes
+    Clase
+        Variables (referenciales y primitivas) //Estado
+        Metodos //Comportamiento
+
+    Archivo: Contacto.java //Nombre de clase con mayuscula y CamelCase
+
+        package whatsapp; //A que paquete pertenece 
+        import java.awt.Image; //importo clase Image
+
+        public class Contacto { //Clase publica Contacto
+            //Variables de instancia 
+            private String nombre; // modificadorDeAcceo tipoDato nombreVar
+            private Image imagen;
+            private int id;
+        
+            //Constructor Vacio
+            public Contacto(){
+            }
+            //Constructor con argumentos
+            public Contacto(String nombre, Image imagen, int id){
+                this.nombre = nombre;
+                this.imagen = imagen;
+                this.id = id;
+            }
+            //Sobrecarga de Constructores
+            public Contacto(int id){
+                this.id = id;
+            }
+
+            //Comportamientos
+            public String getNombre() { //modificadorDeAcceo tipoDatoRetorno nombreMetodo (parametros)
+                return nombre;
+            }
+            public void setNombre(String nombre) {
+                this.nombre = nombre;
+            }
+            . . .
+        }
+
+        modificadorDeAcceo = private, public
+        tipoDatoRetorno = void (nada), int, String ...
+
+    Tipos de Datos
+        Primitivos (Se guarda en STACK)
+            Entero: byte, short, int (32 bits), long (64 bits)
+            Punto flotante: float y double
+            Un carácter: char
+            Lógico: boolean
+        Referenciales (Clase) (Se guarda en HEAP)
+            NombreCLase nomVar;
+            nomVar = new NombreClase();
+            //Tambien se puede declarar de esta manera
+            NombreClase nomVar = new NombreClase();
+
+    Valor por defecto en Variables de instancia:
+        boolean = false;
+        char = '\uoooo' (nulo);
+        byte/short/int/long = 0;
+        float/double = 0.0;
+        objeto = null;
+
+    Clases wrappers: clases de objetos con metodos por defecto ya creados dentro del paquete java.lang(ya disponible sin import).
+        primitivo = Wrapper
+        char = Character
+        boolean = Boolean
+        byte = Byte
+        short = Short
+        int = Integer
+        long = Long
+        float = Float
+        double = Double
+    Autoboxing/Boxing-Unboxing:(cambio de tipo primitivo a wrapper)
+        Antes:
+            Integer nro = new Integer(3);
+            int num = nro.intValue();
+        Ahora
+            Integer nro = 3;
+            int num = nro;
+
+    Pasos al crear instancia de objeto (new()):
+        1. Se aloca espacio para la variable
+        2. Se aloca espacio para el objeto en la HEAP y se inicializan los atributos con valores por defecto.
+        3. Se inicializan explícitamente los atributos del objeto.
+        4. Se ejecuta el constructor (parecido a un método que tienen el mismo nombre de la clase)
+        5. Se asigna la referencia del nuevo objeto a la variable.
+
+    Variables:
+        Variables locales a un metodo
+            -Es necesario inicializar
+            -Se almacena en STACK
+        Variables de instancia
+            -Se almacena en HEAP
+
+    static
+        Variable static: es una unica variable (compartida) para todas las instancia de un objeto. Una sola referencia en memoria
+            private static int ultCont;
+        Metodo static: se utilizan cuando se necesita algún comportamiento que no depende de una instancia particular
+            public static int getUltCont{
+                return ultCont;
+            }
+
+    Arreglos
+        - Un objeto que ahce referencia a un conjunto
+        - Heterogeneos
+        - Se guardan en posiciones contiguas
+        - nombre.length cantidad de espacio reservado
+    Declaracion:
+        tipoDato[] nomArr = new tipoDato[cant]; // Se reserva cant posiciones de ese tipo
+    Inicializacion:
+        nomArr[0] = x;
+    Declaracion/Iniciacizacion:
+        tipoDato[] nomArr = {new tipoDato(), new tipoDato(),new tipoDato()}
+        String[] nomArr = {"example0", "example1",'example2'}
+
+    Recorridos
+        For Tradicional
+            for (int i=0; i<a.length;i++)
+                result = result + a[i];
+        For-each:
+            for (int valor: a) // para cada elemento elto de tipo int, en el arreglo a
+                result = result + valor;
+    Matriz
+        int[][] notas = new int[2][3];
+
+    Pasaje de parametros (siempre por valor)
+        En JAVA siempre se hace una copia de los parametros reales.
+
+        Parametros formales
+            Son los parametros en la definicion del metodo
+        Parametros reales
+            Son los parametros en la invocacion al metodo
+        
+        Tipo primitivo: se hace una copia.
+        Wrapper: crea una nueva instancia cuando le damos un valor.
+
+        Si pasamos un tipo de dato referencial (objeto) se pueden modificar el estado mediante los setters.
+    
+
+Clase 3
+    Herencia: Una clase hereda los atributos y comportamientos de otra clase
+        extends
+            public class Camioneta extends Vehiculo { // La clase Camioneta es una subclase de Vehiculo
+                ...
+            }
+        Sobreecritura de metodos (super) @Override
+            public String detalles() {
+                return super.detalles() + " sigo agregando"; //Con super puedo llamar a metodos de la super Clase
+            }
+        Habilitacion de metodos segun la jerarquia de herencia
+        Casting: conversion de tipos
+        Upcasting: casting hacia arriba en la jerarquia de herencia, es SEGURO.
+            Vehiculo vc = new Camion(); // vc solo puede utilizar los metodos de Vehiculo y los metodos sobreescritos (binding dinamico) de Camion
+        Downcasting: casting hacia abajo en la jerarquia de herencia.
+            Integer x = (Integer)lista.elemento(2);
+
+    Clase object: clase base de todas las clases sin extends
+        public boolean equals(Object obj){} // Se puede sobreescribir para que compare los atributos
+            obj1.equals(obj2); //Compara si las dos referencias a memoria son iguales.
+        public String toString(){}, // Se puede sobreescribir para imprimir los atributos
+            ob1.toString(); //Devuelve 
+
+    Clases abstractas: clase que sirve para modelar un concepto abastracto,agrupar clases y no se puede instanciar.
+        public abstract class FiguraGeometrica {
+            //atributos
+            //metodos
+            public abstract void dibujar(); //Metodo delegado a la subclase
+        }
+
+    Listas
+        Operaciones:
+            elemento(int pos): retorna el elemento de la posición indicada
+            incluye(Object elem): retorna true si elem está en la lista, false en caso contrario
+            agregarEn(Object elem, int pos): agrega el elemento elem en la posición pos
+                agregarInicio(Object elem): agrega al inicio de la lista
+                agregarFinal(Object elem): agrega al final de la lista
+            eliminarEn(int pos): elimina el elemento de la posición pos
+            eliminar(Object elem): elimina, si existe, el elemento elem
+            esVacia(): retorna true si la lista está vacía, false en caso contrario
+            tamanio(): retorna la cantidad de elementos de la lista
+            
+            comenzar(): se prepara para iterar los elementos de la lista
+            proximo(): retorna el elemento y avanza al próximo elemento de la lista.
+            fin(): determina si llegó o no al final de la lista, retorna true si no hay mas elementos, false en
+            caso contrario
+        
+        Tipo especifico (no hay que hacer casting, y necesitamos una clase por cada tipo a almacenar)
+        ListaDeEnteros(clase abstracta)
+            ListaDeEnterosConArreglos
+            ListaDeEnterosEnlazada
+
+        Tipo Object (estructura generica, pero hay que hacer Downcasting)
+        Lista heterogeneas de objetos
+            Para recuperar un objeto de la lista hay que hacer Downcasting
+                Integer x = (Integer)lista.elemento(2);
+            
+        Tipos genericos: permiten abstraerse de los tipos
+            Definicion:
+            public class ListaEnlazadaGenerica<T> extends ListaGenerica<T>{
+                private NodoGenerico<T> inicio;
+                ...
+            }
+            Instanciacion:
+            ListaEnlazadaGenerica<Integer> lista = new ListaEnlazadaGenerica<Integer>();
+            lista.agregarFinal(new Integer(50));
+            ListaEnlazadaGenerica<Alumno> lista = new ListaEnlazadaGenerica<Alumno>();
+            lista.agregarFinal(new Alumno(“Peres, Juan”, 3459));
+
+Clase 4
+    Arbol: coleccion de nodos 
+        Camino: cantidad de nodos por debajo de n
+        Profundidad: es la longitud del unico camino desde la raiz hasta el nodo - 1
+        Grado: numero de hijos del nodo
+        Altura: la longitud del camino mas largo de n a su ultima hoja
+        Ancestro/Descendiente : todos los nodos que esten por debajo del nodo
+        Arbol binario lleno: si tiene todos los nodos con 2 hojas y su altura maxima
+        Cantidad de nodos en un arbol binario lleno: altura = h, 2^(h+1) - 1
+        Cantidad de nodos en un arbol binario completo: altura = h, min(2^h) entre max(2^(h+1) - 1)
+
+    Representacion : hijo izquierdo - hijo derecho
+    Recorridos
+        - Preorden: (recursivo)(abajo) se procesa la raiz, luego el hijo izquierdo y despues el hijo derecho
+        public void preorden(){
+            imprimir (dato);
+            si (tiene hijo_izquierdo)
+                hijoIzquierdo.preorden();
+            si (tiene hijo_derecho)
+                hijoDerecho.preorden();
+        }
+        - Postorden: (recursivo)(arriba) se procesa los hijos, izquierdo y derecha, y luego la raiz
+
+        - Inorden: (recursivo) se procesa el hijo izquierdo, luego la raiz y despues el hijo derecho
+        - Por niveles: primero la raiz, luego los hijos, los hijos de estos, etc
+        public void porNiveles(){
+            encolar(raiz)
+            mientras(cola no se vacie){
+                desencolar(v);
+                imprimir (dato de v);
+                si (tiene hijo_izquierdo)
+                    encolar(hijo_izquierdo);
+                si (tiene hijo_derecho)
+                    encolar(hijo_derecho);
+            }
+        }
+        minuto 34-
