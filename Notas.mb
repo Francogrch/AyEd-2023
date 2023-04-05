@@ -245,4 +245,33 @@ Clase 4
                     encolar(hijo_derecho);
             }
         }
-        minuto 34-
+        Para saber el recorrido de a cuerdo con solamente la secuencia de nodos, primero hay que ver donde esta la raiz.
+        
+        Arboles de expresion (logicas, aritmeticas)
+                    - Nodos internos son operadores
+            - Nodos externos son operandos
+        -Lo utilizan los compiladores para anlizar
+        -Traducir expresiones a notaciones: 
+            -Postfija/Sufija (Postorden) (no necesita uso de parentesis)
+                Algoritmo:
+                tomo un caracter
+                mientras(exista caracter)
+                    si es un operado: creo un nodo y lo apilo
+                    si es un operador:
+                        creo un nodo R
+                        desapilo y lo agrego como hijo derecho
+                        desapilo y lo agrego como hijo izquierod de r
+                        apilo r
+                    tomo otro caracter 
+            -Prefija (Preorden) (no necesita uso de parentesis) (de raiz hacia abajo/ recursivo)(primero operadores luego operandos)
+                Algoritmo:
+                ArbolExpresion(A: ArbolBin,exp: string)
+                si exp nulo: nada
+                si es un operador: 
+                    creo nodo raiz
+                    ArbolExpresion(subArbIzq de R, exp(sin 1 caracter))
+                    ArbolExpresion(subArbDer de R, exp(sin 1 caracter))
+                si es un operando:
+                    creo un nodo(hoja)
+            -Infija (Inorden)(hiper-parentisada por niveles/ ambigua)
+Clase 5
