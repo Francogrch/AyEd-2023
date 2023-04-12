@@ -383,67 +383,127 @@ Clase 5
                         return lleno;
                     }
                 
-        Arbol de Expresion:
-            Convertir expresion posfija en arbol de expresion:
-                Idea: apila los elementos que no sean operadores, al encontrarse con un operador agrega los operadores como hojas de los operandos
-                Algoritmo:
-                    public ArbolBinario<Character> convertirPostfija(String exp) {
-                    Character c = null;
-                    ArbolBinario<Character> result;
-                    PilaGenerica<ArbolBinario<Character>> p = new PilaGenerica<ArbolBinario<Character>>();
-                    
-                    for (int i = 0; i < exp.length(); i++) {
-                        c = exp.charAt(i);
-                        result = new ArbolBinario<Character>(c);
-                        if ((c == '+') || (c == '-') || (c == '/') || (c == '*')) {
-                            // Es operador
-                            result.agregarHijoDerecho(p.desapilar());
-                            result.agregarHijoIzquierdo(p.desapilar ());
-                            }
-                        p.apilar(result);
+    Arbol de Expresion:
+        Convertir expresion posfija en arbol de expresion:
+            Idea: apila los elementos que no sean operadores, al encontrarse con un operador agrega los operadores como hojas de los operandos
+            Algoritmo:
+                public ArbolBinario<Character> convertirPostfija(String exp) {
+                Character c = null;
+                ArbolBinario<Character> result;
+                PilaGenerica<ArbolBinario<Character>> p = new PilaGenerica<ArbolBinario<Character>>();
+                
+                for (int i = 0; i < exp.length(); i++) {
+                    c = exp.charAt(i);
+                    result = new ArbolBinario<Character>(c);
+                    if ((c == '+') || (c == '-') || (c == '/') || (c == '*')) {
+                        // Es operador
+                        result.agregarHijoDerecho(p.desapilar());
+                        result.agregarHijoIzquierdo(p.desapilar ());
                         }
-                    return (p.desapilar());
+                    p.apilar(result);
                     }
-            Convertir expresion prefija en arbol de expresion
-                Idea: tomamos el primer elemento del string, ir agregando izquierda, luego derecha del string-1
-                Nota: al momento de hacer exp.delete(0,1) borra el elemento y lo modifica dentro del objeto - el caso base son los operandos, y el recursivo los operadores
-                Algoritmo:
-                    public ArbolBinario<Character> convertirPrefija(StringBuffer exp) {
-                    Character c = exp.charAt(0);
-                    ArbolBinario<Character> result = new ArbolBinario<Character>(c);
+                return (p.desapilar());
+                }
+        Convertir expresion prefija en arbol de expresion
+            Idea: tomamos el primer elemento del string, ir agregando izquierda, luego derecha del string-1
+            Nota: al momento de hacer exp.delete(0,1) borra el elemento y lo modifica dentro del objeto - el caso base son los operandos, y el recursivo los operadores
+            Algoritmo:
+                public ArbolBinario<Character> convertirPrefija(StringBuffer exp) {
+                Character c = exp.charAt(0);
+                ArbolBinario<Character> result = new ArbolBinario<Character>(c);
+                if ((c == '+') || (c == '-') || (c == '/') || c == '*') {
+                    // es operador
+                    result.agregarHijoIzquierdo(this.convertirPrefija(exp.delete(0,1))); //Aca borras un elemento de exp
+                    result.agregarHijoDerecho(this.convertirPrefija(exp.delete(0,1))); // Aca borras otro mas, al momento de hacer delete() borras y queda guardado sin ese caracter
+                }
+                // es operando
+                return result;
+                }
+        Evaluacion de un arbol de expresion:
+            Idea: si no es operador, retorno integer. Si es operador retorno la operacion entre los dos operadores.
+            Nota: recursivo
+            Algoritmo:
+                public Integer evaluar(ArbolBinario<Character> arbol) {
+                    Character c = arbol.getDato();
                     if ((c == '+') || (c == '-') || (c == '/') || c == '*') {
                         // es operador
-                        result.agregarHijoIzquierdo(this.convertirPrefija(exp.delete(0,1))); //Aca borras un elemento de exp
-                        result.agregarHijoDerecho(this.convertirPrefija(exp.delete(0,1))); // Aca borras otro mas, al momento de hacer delete() borras y queda guardado sin ese caracter
+                        int operador_1 = evaluar(arbol.getHijoIzquierdo());
+                        int operador_2 = evaluar(arbol.getHijoDerecho());
+                        switch (c) {
+                            case '+':
+                                return operador_1 + operador_2;
+                            case '-':
+                                return operador_1 - operador_2;
+                            case '*':
+                                return operador_1 * operador_2;
+                            case '/':
+                                return operador_1 / operador_2;
+                        }
                     }
                     // es operando
-                    return result;
-                    }
-            Evaluacion de un arbol de expresion:
-                Idea: si no es operador, retorno integer. Si es operador retorno la operacion entre los dos operadores.
-                Nota: recursivo
-                Algoritmo:
-                    public Integer evaluar(ArbolBinario<Character> arbol) {
-                        Character c = arbol.getDato();
-                        if ((c == '+') || (c == '-') || (c == '/') || c == '*') {
-                            // es operador
-                            int operador_1 = evaluar(arbol.getHijoIzquierdo());
-                            int operador_2 = evaluar(arbol.getHijoDerecho());
-                            switch (c) {
-                                case '+':
-                                    return operador_1 + operador_2;
-                                case '-':
-                                    return operador_1 - operador_2;
-                                case '*':
-                                    return operador_1 * operador_2;
-                                case '/':
-                                    return operador_1 / operador_2;
-                            }
-                        }
-                        // es operando
-                        return Integer.parseInt(c.toString());
-                    }
+                    return Integer.parseInt(c.toString());
+                }
 CLase 6
+    Construccion de un arbol de expresion
+        A partir de una expresion Postija (pila):
+            Algoritmo:
+                tomo un carácter de la expresión
+                mientras ( existe carácter ) hacer
+                    si es un operando 🡪 
+                        creo un nodo y lo apilo.
+                    si es un operador (lo tomo como la raíz de los dos últimos nodos creados)
+                        🡪 creo un nodo R,
+                        desapilo y lo agrego como hijo derecho de R
+                        desapilo y lo agrego como hijo izquierdo de R
+                        apilo R.    
+                    tomo otro carácter
+                fin
+        A partir de una expresion Prefija (recursiva):
+            Algoritmo:
+                ArbolExpresión (A: ArbolBin, exp: string )
+                    si exp nulo 
+                        🡪 nada.
+                    si es un operador 🡪 
+                        creo un nodo raíz R
+                        ArbolExpresión (subArbIzq de R, exp(sin 1 carácter) )
+                        ArbolExpresión ( subArbDer de R, exp(sin 1 carácter) )
+                    si es un operando 🡪 
+                        creo un nodo (hoja)
+        A partir de una expresión infija (Pasar a postfija - armar arbol postija - recorrer en preorden):
+            a) si es un operando 🡪 se coloca en la salida.
+            b) si es un operador 🡪 se maneja una pila según la prioridad del operador en relación al tope de la pila
+                -operador con > prioridad que el tope se apila
+                -operador con <= prioridad que el tope se desapila elemento colocándolo en la salida.
+            c) si es un "(" se apila, si es ")" se desapila todo hasta el "(", incluído éste
+            d) cuando se llega al final de la expresión, se desapilan todos los elementos llevándolos a la salida, hasta que la pila quede vacía
+    Arboles Generales
+        Grado: es el número de hijos del nodo
+            Grado del árbol: es el grado del nodo con mayor grado
+        Altura: es la longitud del camino más largo desde la raiz hasta una hoja.
+        Profundidad / Nivel: es la longitud del único camino desde la raíz hasta el nodo
 
+        Recorridos:
+            Preorden: Se procesa primero la raíz y luego los hijos (arriba hacia abajo)
+            Inorden: Se procesa el primer hijo, luego la raíz y por último los restantes hijos (abajo hacia arriba)
+            Postorden: Se procesan primero los hijos y luego la raíz (abajo hacia arriba)
+            Por niveles: Se procesan los nodos teniendo en cuenta sus niveles, primero la raíz, luego los hijos, los hijos de éstos, etc.
 
+        Arbol lleno: es lleno si cada nodo interno tiene el mismo grado y todas las hojas estan en el mismo nivel
+            Recursivamente: 
+                1. T es un nodo simple o
+                2. T es de altura h y todos sus subarbolers son llemos de altura h-1
+            Cantidad de nodos:
+                Sea T un arbol lleno de grado k y altura h, la cantidad de nodos N es:
+                    N = (k^(h+1) - 1) / (k-1)
+        Arbol completo: es completo si es lleno de altura h-1 y el nivel h se completa de izquierda a deracha
 
+        Representacion:
+            -Lista de hijos
+                Cada nodo tiene:
+                    -Informacion propia del nodo
+                    -Lista de todos sus hijos
+            -Hijo mas izquierdo y hermano derecho
+                Cada nodo tiene:
+                    -Información propia del nodo
+                    -Referencia al hijo más izquierdo
+                    -Referencia al hermano derecho
