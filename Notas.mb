@@ -1,5 +1,5 @@
 JAVA
-
+Arboles y HEAP
 Clase 1/2
     Objetos que intercambian mensajes
     Clase
@@ -275,3 +275,175 @@ Clase 4
                     creo un nodo(hoja)
             -Infija (Inorden)(hiper-parentisada por niveles/ ambigua)
 Clase 5
+    Diagrama UML
+    ArbolBinario<T> (Homogeneos respecto al tipo de dato)
+        T dato;
+        ArbolBinario<T> hijoDerecho
+        ArbolBinario<T> hijoIzquierdo
+        Metodos
+            getDato();
+            setDato();
+            getHijoDerecho();
+            getHijoIzquierdo();
+            agregarHijoDerecho(ArbolBinario<T> hijo);
+            agregarHijoIzquierdo(ArbolBinario<T> hijo);
+            eliminarHijoDerecho(arbolBinario<T> hijo);
+            agregarHijoIzquierdo(ArbolBinario<T> hijo);
+            esVacio();
+            esHoja();
+            tieneHijoDerecho();
+            tieneHijoIzquierdo();
+        Creacion:
+            - de abajo hacia arriba
+            - primero ultimas hojas y por ultimo la raiz
+                -Creo padres y luego hijos
+        Recorridos:
+            Preorden
+                Se procesa primero la raíz y luego sus hijos, izquierdo y derecho.
+                Algoritmo:
+                    En la misma clase:
+                        public void printPreorden(){
+                            System.out.println(this.getDato()); //Se puede agregar a una lista tambien, en vez de imprimir
+                            if (this.tieneHijoIzquierdo){
+                                this.getHijoIzquierdo().printPreorden();
+                            }
+                            if (this.tieneHijoDerecho){
+                                this.getHijoDerecho().printPreorden();
+                            } 
+                        }
+                    En otra clase:
+                        public void preorden(ArbolBinario<T> arbol){
+                            System.out.println(arbol.getDato());
+                            if (arbol.tieneHijoIzquierdo){
+                                this.preorden(arbol.getHijoIzquierdo);
+                            }
+                            if (arbol.tieneHijoDerecho){
+                                this.preorden(arbol.getHijoDerecho);
+                            } 
+                        }
+            Inorden
+                Se procesa el hijo izquierdo, luego la raíz y último el hijo derecho
+            Postorden
+                Se procesan primero los hijos, izquierdo y derecho, y luego la raíz
+            Por niveles
+                Se procesan los nodos teniendo en cuenta sus niveles, primero la raíz, luego los hijos, los hijos de éstos, etc.
+                Se utiliza una cola, se encolan los elemntos y a medida que se pasa de niveles se van encolando null
+                Algoritmo:
+                    public void recorridoProNiveles(){
+                        ArbolBinario<T> arbol = null;'
+                        ColaGenerica<ArbolBinario<T>> cola = new ColaGenerica<ArbolBinario<T>>();
+                        cola.encolar(this);
+                        cola.encolar(null);
+                        while (!cola.esVacia()){    
+                            arbol = cola.desencolar();
+                            if (arbol != nul){
+                                System.out.print(arbol.getDato());
+                                if (arbol.tieneHijoIzquierdo){
+                                    cola.encolar(arbol.getHijoIzquierdo);}
+                                if (arbol.tieneHijoDerecho){
+                                    cola.encolar(arbol.getHijoDerecho); }
+                            } else if (!cola.esVacia()){
+                                System.out.println();
+                                cola.encolar(null);
+                            }
+                        }
+                    }
+            Algoritmo para saber si esta lleno el arbol:
+                Algoritmo:
+                    public boolean lleno() {
+                        ArbolBinario<T> arbol = null;
+                        ColaGenerica<ArbolBinario<T>> cola = new ColaGenerica<ArbolBinario<T>>();
+                        boolean lleno = true;
+                        int cant_nodos=0;
+                        int nivel= 0;
+                        cola.encolar(this);
+                        cola.encolar(null);
+                        while (!cola.esVacia() && lleno) {
+                            arbol = cola.desencolar();
+                            if (arbol != null) {
+                                System.out.print(arbol.getDatoRaiz());
+                                if (!arbol.getHijoIzquierdo().esvacio()) {
+                                    cola.encolar(arbol.getHijoIzquierdo());
+                                    cant_nodos++;
+                                }
+                                if (!(arbol.getHijoDerecho().esvacio())) {
+                                    cola.encolar(arbol.getHijoDerecho());
+                                    cant_nodos++;
+                                }
+                            } else if (!cola.esVacia()) {
+                                if (cant_nodos == Math.pow(2, ++nivel)){ // ++nivel Primero incrementa y luego retorna el valor incrementado
+                                    cola.encolar(null);
+                                    cant_nodos=0;
+                                    System.out.println();
+                                } else {
+                                    lleno=false;
+                                    }
+                            }
+                        }
+                        return lleno;
+                    }
+                
+        Arbol de Expresion:
+            Convertir expresion posfija en arbol de expresion:
+                Idea: apila los elementos que no sean operadores, al encontrarse con un operador agrega los operadores como hojas de los operandos
+                Algoritmo:
+                    public ArbolBinario<Character> convertirPostfija(String exp) {
+                    Character c = null;
+                    ArbolBinario<Character> result;
+                    PilaGenerica<ArbolBinario<Character>> p = new PilaGenerica<ArbolBinario<Character>>();
+                    
+                    for (int i = 0; i < exp.length(); i++) {
+                        c = exp.charAt(i);
+                        result = new ArbolBinario<Character>(c);
+                        if ((c == '+') || (c == '-') || (c == '/') || (c == '*')) {
+                            // Es operador
+                            result.agregarHijoDerecho(p.desapilar());
+                            result.agregarHijoIzquierdo(p.desapilar ());
+                            }
+                        p.apilar(result);
+                        }
+                    return (p.desapilar());
+                    }
+            Convertir expresion prefija en arbol de expresion
+                Idea: tomamos el primer elemento del string, ir agregando izquierda, luego derecha del string-1
+                Nota: al momento de hacer exp.delete(0,1) borra el elemento y lo modifica dentro del objeto - el caso base son los operandos, y el recursivo los operadores
+                Algoritmo:
+                    public ArbolBinario<Character> convertirPrefija(StringBuffer exp) {
+                    Character c = exp.charAt(0);
+                    ArbolBinario<Character> result = new ArbolBinario<Character>(c);
+                    if ((c == '+') || (c == '-') || (c == '/') || c == '*') {
+                        // es operador
+                        result.agregarHijoIzquierdo(this.convertirPrefija(exp.delete(0,1))); //Aca borras un elemento de exp
+                        result.agregarHijoDerecho(this.convertirPrefija(exp.delete(0,1))); // Aca borras otro mas, al momento de hacer delete() borras y queda guardado sin ese caracter
+                    }
+                    // es operando
+                    return result;
+                    }
+            Evaluacion de un arbol de expresion:
+                Idea: si no es operador, retorno integer. Si es operador retorno la operacion entre los dos operadores.
+                Nota: recursivo
+                Algoritmo:
+                    public Integer evaluar(ArbolBinario<Character> arbol) {
+                        Character c = arbol.getDato();
+                        if ((c == '+') || (c == '-') || (c == '/') || c == '*') {
+                            // es operador
+                            int operador_1 = evaluar(arbol.getHijoIzquierdo());
+                            int operador_2 = evaluar(arbol.getHijoDerecho());
+                            switch (c) {
+                                case '+':
+                                    return operador_1 + operador_2;
+                                case '-':
+                                    return operador_1 - operador_2;
+                                case '*':
+                                    return operador_1 * operador_2;
+                                case '/':
+                                    return operador_1 / operador_2;
+                            }
+                        }
+                        // es operando
+                        return Integer.parseInt(c.toString());
+                    }
+CLase 6
+
+
+
