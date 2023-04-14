@@ -139,7 +139,6 @@ Clase 1/2
 
         Si pasamos un tipo de dato referencial (objeto) se pueden modificar el estado mediante los setters.
     
-
 Clase 3
     Herencia: Una clase hereda los atributos y comportamientos de otra clase
         extends
@@ -274,6 +273,7 @@ Clase 4
                 si es un operando:
                     creo un nodo(hoja)
             -Infija (Inorden)(hiper-parentisada por niveles/ ambigua)
+
 Clase 5
     Diagrama UML
     ArbolBinario<T> (Homogeneos respecto al tipo de dato)
@@ -443,7 +443,8 @@ Clase 5
                     // es operando
                     return Integer.parseInt(c.toString());
                 }
-CLase 6
+
+Clase 6
     Construccion de un arbol de expresion
         A partir de una expresion Postija (pila):
             Algoritmo:
@@ -484,9 +485,37 @@ CLase 6
 
         Recorridos:
             Preorden: Se procesa primero la raíz y luego los hijos (arriba hacia abajo)
+                Algoritmo:
+                    public void preOrden() {
+                        imprimir (dato);
+                        obtener lista de hijos;
+                        mientras (lista tenga datos) {
+                            hijo  obtenerHijo;
+                            hijo.preOrden();
+                        }
+                    }
             Inorden: Se procesa el primer hijo, luego la raíz y por último los restantes hijos (abajo hacia arriba)
             Postorden: Se procesan primero los hijos y luego la raíz (abajo hacia arriba)
+                Algoritmo:
+                    public void postOrden() {
+                    obtener lista de hijos;
+                    mientras (lista tenga datos) {
+                        hijo obtenerHijo;
+                        hijo.postOrden();
+                        }
+                    imprimir (dato);
+                    }
             Por niveles: Se procesan los nodos teniendo en cuenta sus niveles, primero la raíz, luego los hijos, los hijos de éstos, etc.
+                Algoritmo:
+                    public void porNiveles() {
+                        encolar(raíz);
+                        mientras cola no se vacíe {
+                            v desencolar();
+                            imprimir (dato de v);
+                            para cada hijo de v
+                            encolar(hijo);
+                        }
+                    }
 
         Arbol lleno: es lleno si cada nodo interno tiene el mismo grado y todas las hojas estan en el mismo nivel
             Recursivamente: 
@@ -505,5 +534,59 @@ CLase 6
             -Hijo mas izquierdo y hermano derecho
                 Cada nodo tiene:
                     -Información propia del nodo
-                    -Referencia al hijo más izquierdo
-                    -Referencia al hermano derecho
+                    -Referencia al hijo más izquierdo (nivel inferior)
+                    -Referencia al hermano derecho (mismo nivel)
+        
+        1)¿Cuántos niveles tiene el árbol?
+            Seudocódigo Ejerc1-Niveles {
+                q: cola de vértices;
+                encolar raíz R en q; encolar ?? en q;
+                mientras (cola no se vacíe) {
+                    desencolar v de q;
+                    si (dato de v no es ??) {
+                        imprimir (dato de v);
+                        para cada hijo w de v
+                            encolar w en q; }
+                    sino
+                        si (q no está vacía)
+                            encolar ?? en q;
+                }
+            }
+        2)¿Cuántos nodos hay en cada nivel del árbol?
+            Seudocódigo Ejerc2-Niveles {
+                q: cola de vértices;
+                encolar raíz R en q; encolar ?? en q;
+                mientras (cola no se vacíe) {
+                    desencolar v de q;
+                    si (dato de v no es ??) {
+                        imprimir (dato de v);
+                        para cada hijo w de v
+                            encolar w en q; }
+                    sino
+                        si (q no está vacía)
+                            encolar ?? en q;
+                }
+            }
+        3)¿Cuántos nodos hay en el nivel k del árbol?
+            Seudocódigo Ejerc3-Niveles (int k) {
+                q: cola de vértices; nroNivel=0; cantNodos=0;
+                encolar raíz R en q; encolar ?? en q;
+                mientras (cola no se vacíe) {
+                    desencolar v de q;
+                    si (dato de v no es ??){
+                        si (nroNivel==k){
+                            mientras (dato de v no es ??)
+                                {cantNodos++;
+                                desencolar v de q;}
+                        }
+                        sino para cada hijo w de v
+                            encolar w en q;
+                    }sino
+                    si (q no está vacía){
+                        encolar ?? en q;
+                        nroNivel++; }
+                }
+                return cantNodos;
+            }
+
+Clase 7
