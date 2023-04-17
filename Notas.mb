@@ -590,3 +590,245 @@ Clase 6
             }
 
 Clase 7
+    Interfaces
+        Es una coleccion de definiciones de metodos sin implementacion/cuerpo y de declaraciones de variables de clase cosntantes, agrupadas bajo un nombre.
+        Debido a que en java la herencia de clases es simple, la herencia de interfaces es multiple.
+        Como se define:
+            package nomPaquete;
+            public interface UnaInter extends SuperInter, SuperInter2...{
+                Declaracion de metodos: implicitamente public y abstact
+                Declaracion de constantes implicitamente public, static y final
+            }
+            public interface Volador{
+                (public static final) long UN_SEGUNDO=1000; //Dentro de los espacios no puede ir, y ese es valor por defecto si es que no esta definido
+                (public abstract) String despegar();
+            }
+        Herencia Multiple:
+            Permite crear una clase derivada de varias clases bases, debido a que la implemetacion de metodos se define en la clase que se exitende no causa problema al convinar varias interfaces
+        Upcasting:
+            El mecanismo de upcasting no tiene en cuenta si es una clase concreta, abstracta o una interface. Funciona de la misma manera
+            Polimorfismo: debido a que cada metodo es diferente en cada una de las clases que heredan de la interfaz, hay polimorfismo. 
+            Ejemplo:
+                public static void main(String[] args){
+                    Volador[]m = new Volador[3];
+                    m[0] = new Avion();
+                    m[1] = new Helicoptero();
+                    m[2] = new Pajaro();
+                    for (int i=0; i<m.length;i++){
+                        partida(m[i]);
+                    }
+                }
+        Interfaces vs Clases Abstractas:
+            Las interfaces y las clases abstractas proveen una interface comun
+            Las interfaces son completamente abstractas, no tienen ninguna implementacion
+            Con interfaces no hay herencia de metodos, las clases asbtractas si
+            No es posible crear instancias de clases abstractas ni de interfaces
+            Una clase puede externder solo una clase abstracta, pero puede implementar multiples interfaces
+
+            Uso de interfaces vs Uso de clases abstractas
+                -Para crear una clase base con metodos sin implementacion y sin variables de instancia, es preferible usar interfaces
+                -Si estamos forzados a tener implementacion o definir atributos, entonces usamos clases abstractas
+                -Como Java no soporta herencia multiple de clases, si se quiere que una clase sea ademas del tipo de su superclase de otro dtipo diferete, entonces es necesario usar interfaces
+
+    Ordenando Objetos
+        Arrays
+            Arrays es una clase del paquete java util, la cual sirbe para manipular arreglos, provee mecanismos de BUSQUEDA y ORDENACION
+                import java.util.*
+                Arrays.sort(nombreArray); // El arreglo queda ordenado, si los objetos son de tipo comparable
+            Queda ordenado por el orden de magnitud, comenzando del mas pequenio al mas grande
+            Si el arreglo que le pasamos no son objetos de tipo comparable da error en copilacion
+        Interface java.lang.Comparable
+            Para poder ordenar objetos que no son de tipo comparable. Hay que hacer una interface Comparable<T>.
+                public interface Comparable<T>{
+                    public int CompareTo(T o);
+                }
+            Este metodo retorna:
+                0 si es igual 
+                >0 si el objeto receptor es mayor que el pasado por parametro
+                <0 si el objeto receptor es menor que el pasado por parametro
+                import java.util.*
+                public class Persona implements Comparable <Persona>{
+                    ...
+                    public int compareTo(Persona o){
+                        return this.edad - o.edad; //Establece de acuerdo a que generar el orden
+                    }
+                }
+            En el caso de terner un array de Personas podre utilizar el Array.sort(Personas) ya que el elemento a comparar son las edades
+            Arbol binario de busqueda utilizando la interfaz CompareTo<ArbolBinarioDeBusqueda<T>>
+                public class ArbolBinarioDeBusqueda<T extends Comparable<T>>{
+                     ...
+                    public void agregar(T x){
+                        if (dato == nul){
+                            dato = X;
+                        }else{
+                            this.agregar(x, this);
+                        }
+                    }
+                    private void agregar(T x, ArbolBinarioDeBusqueda<T> t){
+                        if(x.compareTo(t.getDato()) < 0){ //Mas pequenio
+                            if (!t.tieneHijoIzquierdo()){
+                                t.setHijoIzquerdo(new ArbolBinarioDeBusqueda<T>(x));
+                            }else{
+                                this.agregar(x,t.getHijoIzquierdo());
+                            }
+                        } else if (x.compareTo(t.getDato()) > 0){ // Mas grande
+                            if (!t.getHijoDerecho()){
+                                t.setHijoDerecho(new ArbolBinarioDeBusqueda<T>(x));
+                            }else{
+                                this.agregar(x,t.getHijoDerecho());
+                            }
+                        }
+                    }
+                }
+
+Clase 8
+    Arboles Generales
+    Atributos:
+        dato:T
+        hijos: ListaGenerica<ArbolGenera<T>>
+    Metodos:
+        ArbolGeneral(T)
+        ArbolGeneral(T,ListaGenerica<ArbolGeneral<T>>)
+        getDato();
+        setDato():void
+        setHijos(ListaGenerica<ArbolGeneral<T>>):void
+        getHijos():ListaGenerica<ArbolGeneral<T>>
+        agregarHijo(ArbolGeneral<T>):void
+        esVacio():boolean
+        esHoja():boolean
+        tieneHijos():boolean
+        eliminarHijo(ArbolGeneral<T>):void
+        altura():integer
+        nivel(T):integer
+        ancho():integer
+    Recorridos: metodos de ArbolGeneral que retornan listas
+        preOrden:
+            public ListaEnlazadaGenerica<T> preOrden(){
+                ListaEnlazadaGenerica<T> lis = new ListaEnlazadaGenerica<T>();
+                this.preOrden(lis);
+                return lis;
+            }
+            private void preOrden(ListaGenerica<T> l){
+                l.agregarFinal(this.getDato());
+                ListaGenerica<ArbolGeneral<T>> lHijos = this.getHijos();
+                lHijos.comenzar();
+                while (!lHijos.fin()){
+                    (lHijos.proximo()).preOrden(l)
+                }
+            }
+        Por niveles:
+            public void porNiveles(){
+                encolar(raiz);
+                mientras cola no se vacie {
+                    desencolar()
+                    imprimir (dato de v);
+                    para cada hijo de v
+                        encolar(hijo)
+                }
+            }
+            public ListaGenerica<T> porNiveles(ArbolGeneral<T> arbol){
+                ListaGenerica<T> result = new ListaEnlazadaGenerica<T>();
+                ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
+                ArbolGeneral<T> arbol_aux;
+                cola.encolar(arbol);
+                while (!cola.esVacia()){
+                    arbol_aux = cola.desencolar();
+                    result.agregarFinal(arbol_aux.getDato());
+                    if (arbol_aux.tieneHijos()){
+                        ListaGenerica<ArbolGeneral<T>> hijos = arbol_aux.getHijos();
+                        hijos.comenzar();
+                        while (!hijos.fin()){
+                            cola.encolar(hijos.proximo());
+                        }
+                    }
+                }
+                return result;
+            }
+        Ejercicios Parcial
+            //Retorna lista con elementos de tipo imagen en un nivel en partiuclar
+            public ListaGenerica<Recurso> getImagenes(ArbolGeneral<Recurso> ag,int nivel_pedido){
+                ListaGenerica<Recurso> result = new ListaEnlazadaGenerica<Recurso>();
+                ColaGenerica<ArbolGeneral<Recurso>> cola = new ColaGenerica<ArbolGeneral<Recurso>>();
+                ArbolGeneral<Recurso> arbol_aux;
+                cola.encolar(ag); cola.encolar(null);
+                boolean proceso_nivel_pedido = false;
+                int nivel = 0; //La raiz comienza en nivel 0
+                while (!cola.EsVacia() && proceso_nivel_pedido == false){
+                    arbol_aux = cola.desencolar();
+                    if (arbol_aux != null){
+                        if (nivel == nivel_pedido && arbol_aux.getDato().esImagen() )
+                            result.agregarFinal(arbol_aux.getDato())
+                        if (arbol_aux.tieneHJijos()){
+                            ListaGenerica<ArbolGeneral<Recurso>> hijos = arbol_aux.getHijos();
+                            hijos.comezar();
+                            while (!hijos.fin()){
+                                cola.encolar(hijos.proximo())
+                            }
+                        }
+                    } else{
+                        if (!cola.esVacia()){
+                            nivel++;
+                            cola.encolar(null);
+                            if (nivel>nivel_pedido)
+                                proceso_nivel_pedido = true;
+                        }
+                    }
+                }
+                return result;
+            }
+            //Retorna camino que llega a princesa sin pasar por dragon
+            private void encontrarPrincesa(ArbolGeneral<Personaje> arbol,ListaGenerica<Personaje> lista, ListaGenerica<Personaje> camino){
+                Personaje p = arbol.getrDato();
+                if (p.esPrincesa()){
+                    clonar(lista, camino);
+                }
+                if (camino.esVacia()){
+                    ListaGenerica<ArbolGeneral<Personaje>> lHijos = arbol.getHijos();
+                    lHijos.comenzar():
+                    while (!lHijos.fin() && camino.esVacia()){
+                        ArbolGeneral<Personaje> aux = lHijos.proximo();
+                        if (!aux.getDato().esDragon()){
+                            lista.agregarFinal(aux.getDato());
+                            encontrarPrincesa(aux,lista,camino);
+                            lista.eliminarEn(lista.tamnio);
+                        }
+                    }               
+                }
+            }
+            //Uso de backtracking, va agregando a medida que vuelva a sus llamadas recursivas 
+            public ListaEnlazadaGenerica<Personaje> encontrarPrincesa(arbolGeneral<Personaje> arbol){
+                ListaEnlazadaGenerica<Personaje> lista = new ListaEnlazadaGenerica<Personaje>();
+                if (arbol.getDato().esPrincesa() || arbol.getDato().esDragon() || arbol.esHoja()){
+                    if (arbol.getDato().esPrincesa()){
+                        Personaje p = arbol.getDato();
+                        lista.agregarInicio(p);
+                    }
+                    return lista;
+                }
+                ListaGenerica<ArbolGeneral<Personaje>> lHijos = arbol.getHijos();
+                lHijos.comenzar();
+                while (!lHijos.fin() && lista.esVacia()){
+                    lista = encontrarPrincesa(lHijos.proximo());
+                    if(!lista.esVacia()){
+                        lista.agregarInicio(arbol.getDato());
+
+                    }
+                }
+            return lista;
+            }
+            //Retorna la cantidad de veces que hay un recorrido que suma valor
+            public static int contadorGematria(ArbolGeneral<Integer> ag, int valor){
+                int resta = valor - ag.getDato();
+                if (ag.esHoja() && resta == 0)
+                    return 1
+                else if (resta > 0){
+                    int cont = 0
+                    ListaGenerica<arbolGeneral<Integer>> lista = ag.getHijos();
+                    lista.comenzar();
+                    while (!lista.fin()){
+                        ArbolGeneral<Integer> arbol = lista.proximo();
+                        cont = cont + contadorGematria(arbol,resta);
+                    }
+                    return cont;
+                }
+            }
