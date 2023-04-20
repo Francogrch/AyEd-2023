@@ -1,4 +1,4 @@
-JAVA
+JAVAJAVA
 Arboles y HEAP
 Clase 1/2
     Objetos que intercambian mensajes
@@ -814,7 +814,7 @@ Clase 8
 
                     }
                 }
-            return lista;
+            return lista
             }
             //Retorna la cantidad de veces que hay un recorrido que suma valor
             public static int contadorGematria(ArbolGeneral<Integer> ag, int valor){
