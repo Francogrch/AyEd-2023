@@ -1,0 +1,97 @@
+package ejer4;
+import tp04.src.tp02.ejercicio2.*;
+
+
+public class ArbolGeneral<T> {
+
+	private T dato;
+
+	private ListaGenerica<ArbolGeneral<T>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
+
+	public T getDato() {
+		return dato;
+	}
+
+	public void setDato(T dato) {
+		this.dato = dato;
+	}
+
+	public void setHijos(ListaGenerica<ArbolGeneral<T>> hijos) {
+		if (hijos==null)
+			this.hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
+		else
+			this.hijos = hijos;
+	}
+
+	public ArbolGeneral(T dato) {
+		this.dato = dato;
+	}
+
+	public ArbolGeneral(T dato, ListaGenerica<ArbolGeneral<T>> hijos) {
+		this(dato);
+		if (hijos==null)
+			this.hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
+		else
+			this.hijos = hijos;
+	}
+
+	public ListaGenerica<ArbolGeneral<T>> getHijos() {
+		return this.hijos;
+	}
+
+	public void agregarHijo(ArbolGeneral<T> unHijo) {
+
+		this.getHijos().agregarFinal(unHijo);
+	}
+
+	public boolean esHoja() {
+
+		return !this.tieneHijos();
+	}
+	
+	public boolean tieneHijos() {
+		return !this.hijos.esVacia();
+	}
+	
+	public boolean esVacio() {
+
+		return this.dato == null && !this.tieneHijos();
+	}
+
+	
+
+	public void eliminarHijo(ArbolGeneral<T> hijo) {
+		if (this.tieneHijos()) {
+			hijos.comenzar();
+			while (!hijos.fin()) {
+				
+			}
+		}
+	}
+	
+	public ListaEnlazadaGenerica<T> preOrden() {
+		return null;
+	}
+	
+	public Integer altura() {
+		if (this.esHoja()) {
+			return 1;
+		}else {
+			if (this.tieneHijos()) {
+				ListaGenerica<ArbolGeneral<Integer>> hijos = this.getHijos();
+			}
+		}
+		return 0;
+	}
+
+	public Integer nivel(T dato) {
+		// falta implementar
+		return -1;
+	}
+
+	public Integer ancho() {
+		// Falta implementar..
+		return 0;
+	}
+
+}
