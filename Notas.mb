@@ -833,3 +833,126 @@ Clase 8
                 }
             }
 Clase 9
+    Cola de prioridad
+        Es una estructura de datos que permite al menos dos operaciones:
+            Insert: insertar un elemento
+            DeleteMin: Encuentra, recupera y elimina el elemento minimo (el elemento con mas prioridad)
+        Implementaciones:
+            Lista ordenada: Insert tiene O(n) operaciones / DeleteMin tiene O(1) operaciones
+            Lista no ordenada: Insert tiene O(1) operaciones / DelteMin tiene O(n) operaciones
+            Arbol Binario de Busqueda: Insert y DeleteMin tiene en promedio O(log N) operaciones
+
+            Heap (monticulo) binario: no usa punteros y ambas operaciones estan en O(log N) operaciones en el peor caso
+                Propiedades:
+                    Propiedad estructural:
+                        Una heap es un arbol binario completo(lleno hasta h-1 y se completa el ultimo nivel de izquierda a derecha)
+                            El numeros de nodos n de un arbol binario completo de altura h: 2^h <= n <= ((2^(h+1))-1)
+                        La raiz esta almacenada en la posicion 1
+                        Para un elemento que esta en la posicion i:
+                            El hijo izquierdo esta en la posicion 2*i
+                            El hijo derecho esta en la posicion 2*i +1
+                            El padre esta en la posicion i/2
+                    
+                    Propiedad de orden:
+                        MinHeap:
+                            El elemento minimo esta almacenado en la raiz
+                            El dato almacenado en cada nodo es menor o igual al de sus hijos
+                        MaxHeap:
+                            Se usa la propiedad inversa
+            
+            Ventajas de Heap:
+                - no se necesitan punteros
+                - Facil implementacion de las operaciones
+
+            Operacion: 
+                Insert:
+                    El dato se inserta como ultimo item en la heap (ultimo elemento del arreglo)
+                        La propiedad de la heap puede ser violada
+                    Precolate Up: Se debe hacer un filtrado hacia arriba para restaurar la propiedad de orden (se cambia el padre por el hijo, si el hijo es mas grande)
+                    Idea general:
+                        insert(Heap h, Comparable x){
+                            h.tamanio = h.tamanio +1;
+                            n = h.tamanio;
+                            while (n>2 0 && h.dato[n/2] > x) {
+                                h.dato[n] = h.dato[n/2];
+                                n=n/2;
+                            }
+                            h.dato[n]=x; //ubicacion corecta de 'x'
+                        }
+                    Mejor reoslucion:
+                        precolate_up(Heap h, Integer i){
+                            temp = h.dato[i];
+                            while (i>2 0 && h.dato[i/2] > temp) {
+                                h.dato[i] = h.dato[i/2];
+                                i=i/2;
+                            }
+                            h.dato[i]=temp; //ubicacion corecta de 'x'
+                        }
+                        insert(Heap h, Comparable x){
+                            h.tamanio = h.tamanio +1; //Agrega un lugar
+                            h.dato[h.tamanio] = x; //Pone el dato en el ultimo lugar
+                            precolate_up(h,h.tamanio); //Filtra para que quede ordenado
+                        }
+                DeleteMin:
+                    Guardo el dato de la raiz
+                    Elimino el ultimo elemento y lo almaceno en la raiz
+                    Percolte Down: Se debe hacer un filtrado hacia abajo para restaurar la propiedad (intercambia el dato de la raiz hacia abajo a lo largo del camino que contiene los hijos minimos)
+                    Idea general:
+                        delete_min ( Heap h, Comparable e) {
+                        if (not esVacía(h) ) {
+                            e := h.dato[1];
+                            candidato := h.dato[h.tamaño];
+                            h.tamaño := h.tamaño - 1;
+                            p := 1;
+                            stop_perc := false;
+                            while ( 2* p <= h.tamaño ) and ( not stop_perc) {
+                                h_min := 2 * p; // buscar el hijo con clave menor
+                                if h_min <> h.tamaño{ //como existe el hijo derecho comparo a ambos
+                                    if ( h.dato[h_min +1] < h.dato[h_min] )
+                                        h_min := h_min + 1
+                                }
+                                if candidato > h.dato [h_min] { // percolate_down
+                                    h.dato [p] := h.dato[ h_min ];
+                                    p := h_min;
+                                } else 
+                                    stop_perc := true;
+                            }
+                            h.dato[p] := candidato;
+                            }
+                        } // end del delete_min
+                    Percolate_down:
+                    percolate_down ( Heap h, int p) {
+                        candidato := h.dato[p]
+                        stop_perc := false;
+                        while ( 2* p <= h.tamaño ) and ( not stop_perc) {
+                            h_min := 2 * p; // buscar el hijo con clave menor
+                            if h_min <> h.tamaño then
+                            if ( h.dato[h_min +1] < h.dato[h_min] )
+                                h_min := h_min + 1
+                            if candidato > h.dato [h_min] { // percolate_down
+                                h.dato [p] := h.dato[ h_min ]
+                                p := h_min;
+                            }
+                            else stop_perc := true;
+                        } // end { while }
+                        h.dato[p] := candidato;
+                    } // end {percolate_down }
+                    
+                    delete_min ( Heap h; Comparable e) {
+                        if (h.tamaño > 0 ) { // la heap no está vacía
+                            e := h.dato[1] ;
+                            h.dato[1] := h.dato[h.tamaño] ;
+                            h.tamaño := h.tamaño - 1;
+                            percolate_down ( h ; 1);
+                    }
+                    } // end del delete_min
+                DecreaseKey(x,y, H):
+                    Decremenentar la clave que esta en la posicion x de la heap H, en una cantidad y
+                IncreaseKey(x,y, H):
+                    Incrementa la clave que esta en la posicion x de la heap H, en una cantidad y
+                DeleteKey(x):
+                    Elimina la clave que esta en la posicion X
+                    Puede realizarse:
+                        DecreaseKey()
+                        DeleteMin(H)
+                                        

@@ -72,26 +72,78 @@ public class ArbolGeneral<T> {
 	public ListaEnlazadaGenerica<T> preOrden() {
 		return null;
 	}
-	
+
 	public Integer altura() {
+		Integer altura = -1;
 		if (this.esHoja()) {
-			return 1;
+			return 0;
 		}else {
-			if (this.tieneHijos()) {
-				ListaGenerica<ArbolGeneral<Integer>> hijos = this.getHijos();
+			ListaGenerica<ArbolGeneral<T>> hijos = this.getHijos();
+			hijos.comenzar();
+			while (!hijos.fin()) {
+				return Math.max(altura(), hijos.proximo().altura());
 			}
 		}
-		return 0;
+		return altura + 1;
 	}
 
 	public Integer nivel(T dato) {
-		// falta implementar
-		return -1;
+		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<>();
+		Integer nivel = 0;
+		ArbolGeneral<T> actual;
+		if (!this.esVacio()) {
+			cola.encolar(this);
+		}
+		cola.encolar(null);
+		while (!cola.esVacia()) {
+			actual = cola.desencolar();
+			if (actual != null) {
+				if (actual.getDato() == dato) {
+					return nivel;
+				}
+				ListaGenerica<ArbolGeneral<T>> hijos = actual.getHijos();
+				hijos.comenzar();
+				while (!hijos.fin()) {
+					cola.encolar(hijos.proximo());
+				}
+			} else {
+				nivel++;
+				cola.encolar(null);
+			}
+		}
+		return nivel;
 	}
 
-	public Integer ancho() {
-		// Falta implementar..
-		return 0;
+
+	public Integer ancho(){
+		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
+		ArbolGeneral<T> actual;
+		Integer anchoMax = 0;
+		// Si el arbol no esta vacio lo encolo
+		if (!this.esVacio()){
+			cola.encolar(this);
+		}
+		//Despues encolo null
+		cola.encolar(null);
+		while (!cola.esVacia()){ //Mientras la cola no este vacia
+			int anchoActual = 0;
+			actual = cola.desencolar(); //desencolo 
+			while (!cola.esVacia() && (actual  != null)){ //mientras lo que desencole no sea null y tampoco termine la cola
+				anchoActual++;
+				if (actual.tieneHijos()){ //Si tiene hijos, los encolo
+					ListaGenerica<ArbolGeneral<T>> hijos = actual.getHijos();
+					hijos.comenzar();
+					while (!hijos.fin()){
+						cola.encolar(hijos.proximo());	
+					}
+				}
+				anchoMax = Math.max(anchoMax,anchoActual);
+				if (!cola.esVacia()) // Si no esta vacia encolo null ya que termine el nivel
+					cola.encolar(null);
+				actual=cola.desencolar(); //desencolo
+			}
+		}
+		return anchoMax;
 	}
 
 }
