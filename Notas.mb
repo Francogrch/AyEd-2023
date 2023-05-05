@@ -832,6 +832,7 @@ Clase 8
                     return cont;
                 }
             }
+
 Clase 9
     Cola de prioridad
         Es una estructura de datos que permite al menos dos operaciones:
@@ -956,3 +957,62 @@ Clase 9
                         DecreaseKey()
                         DeleteMin(H)
                                         
+Clase 10
+    Heap:Arbol binario completo (lleno hasta la altura h-1 y se completa de izquierda a derecha) que cumple propiedad de orden.
+    MinHeap: Para cada nodo, el valor que contenga es menor que los hijos.
+    Operaciones:
+        Insertar:
+            Inserto en el ultimo lugar(respetando propiedad de orden)
+            Filtra hacia arriba
+        BorrarMin:
+            Se guarda el valor de la primer posicion
+            Se toma el ultimo nodo y se pone como raiz del arbol
+            Se filtra (reacomodo) hacia abajo para que cumpla la propiedad de orden
+        DecreaseKey(pos,cant,heap) //Ej: Subir prioridad a una tarea (S.O)
+            Decrementa la clave que esta en pos de la heap, en una cantidad cant
+        IncreaseKey(pos,cant,heap) //Ej: Bakar prioridad a una tarea (S.O)
+            Incrementar la clave que esta en la pos de la heap, en una cantidad cant
+        DeleteKey(pos)
+            Elimina la clave que esta en la posicion pos
+            Puede realizarse:
+                DecreaseKey(x,(infinito),H)
+                DeleteMin(H)
+    Como construir una heap apartir de una lista de elementos
+        Se puede insertar los elementos de a uno
+            Se realiza (n log n) operaciones en total
+        BuildHeap:
+            (Mas eficiente) Se puede usar un algoritmo de orden lineal, es decir, proporcional a los n elementos
+            -Insertar los elementos desordenados en un arbol binario completo
+            -Filtrar hacia abajo cada uno de los elementos
+                Se empieza filtrando desde el elemetno que esta en la posicion (tamanio/2) //Esto es debido a que de la mitad hacia delante son todas hojas
+                    Se filtran los nodos que tienen hijos  < (tamanio/2)
+                    El resto de los nodos son hojas > (tamanio/2)
+                Se elije el menor de los hijos
+                Se compara el menor de los hijos con el padre
+                Cantidad de operaciones requeridas:
+                    En el filtrado de cada nodo recorremos su altura
+                    Para acotar la cantidad de operaciones del Algoritmo BuildHeap, debemos calcular la suma de las alturas de todos los nodos
+                    Teorema:
+                        En un arbol binario lleno de altura h que contiene 2^(h+1) - 1. La suma de las alturas de los nodos es: 2(^h+1) - 1 - (h+1)
+                    Demostracion:
+                        Un arbol tiene 2^i nodos de altura h-1
+                        S = 2^0 (h-0) + 2(h-1) + 4(h-2) + 8(h-3) + ....... 2^(h-1) (1)
+                        (2S - S) + 2 = (2^(h+1) - (h + 1))
+                    Un arbol binario completo tiene netre 2^h y 2^(h+1) - 1 ndoos, el teorima implica que la suma es de O(n) donde n es el numero de nodos
+        Ordenacion de vectores usando Heap
+            Algoritmo que usa una heap y reqiuiere una cantidad aproximada de (n log n) operaciones.
+            Construir una MinHeap, realizar n DeleteMin operaciones e ir guardando los elementos extraidos en otro arreglo:
+                Desventaja: requiere el doble espacio
+            
+            HeapSort:
+                Construir una MaxHeap() con los elementos que se desean ordenar, intercambiar el ultimo elemento con el primero, decrementar el tamanio de la heap y filtrar hacia abajo.
+                Este algoritmo usa la misma heap y no se necesita otro arreglo.
+                Pasos:
+                    Armar MaxHeap (queda ordenado de forma creciente)
+                    Mientras queden posiciones del arrelgo (tamanio) sin operar:
+                        Intercambia el primer elemento con el ultimo
+                        Decrementa el tamanio
+                        Filtra todo la heap de arriba hacia abajo poniendo el mas grande en el padre
+
+
+            
