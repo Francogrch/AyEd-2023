@@ -1014,5 +1014,51 @@ Clase 10
                         Decrementa el tamanio
                         Filtra todo la heap de arriba hacia abajo poniendo el mas grande en el padre
 
+Clase 12
+    Analisis de algoritmos
+        Nos permite comparar algoritmos en forma independiente de una plataforma en particular
+        Mide la eficiencia de un algoritmo, dependiendo del tamanio de entrada
+        Pasos:
+            -Caracterizar los datos de entrada del algoritmo
+            -Identificar las operaciones abstractas, sobre las que se basa el algoritmo
+            -Realizar un analisis amtematico, para encontrar los valores de las cantidades anteriores
+        Introduccion al concepto de T(n)
+            Priorizamos el tiempo de ejecucion por el espacio en memoria, con un enfoque teorico (no empirico)
+            n = tamanio de la entrada de los datos
+            Se calcula de forma teorica
+            Siempre el tiempo en el peor de los casos
+            Debemos enfocarnos en cuan rapido crece una funcion T(n) respecto al tamanio de la entrada. A esto lo llamamos la tasa o velocidad de crecimiento del tiempo de ejecucion
+        Ordenes de ejecucion de los algoritmos:
+            Logaritmico: log2(n)
+            Lineal: n 
+            Cuadratico: n^2
+        Funciones para describir tasas de crecimiento de los algoritmos: exponencial, cubica, cuadratica, lineal ritmica, lineal, logartimica, constante
+        Ejemplo:
+            Un algoritmo requiere f(n) operaciones para reesolver un problema y la computadora procesa 100 operaciones por segundo.
+            Si f(n) es log10n
+            Determine el tiempo en segundos requerido por el algoritmo para resolver un problema de tamanio n=10000.
+            TE = (log10(10000)) / 100 segundos
+        Siempre vamos a precisar tres parametros:
+            -T(n) cantidad de operaciones del algoritmo
+            -Cantidad de operaciones que puede hacer la computadora
+            -Cantidad de datos a aplicar el algoritmo
+        Calculo del tiempo de Ejecicion:
+            Cada operacion de asignacion y operacion elementar toma un paso
+            Estructuras de control:
+                -Secuencia:
 
-            
+                -Condicional:
+                    -if/else:
+                        T(condicion) + max(T(statement1)
+                        Se suma el tiempo que se tarda en evaluar la condicion y el tiempo maximo entre la cantiad de operaciones del if y el else
+                    -switch:
+                        T(condicion) + max(T(con todos los casos)
+                -Iteracion:
+                    -for:
+                        T(n) = constatesAntes + sumatoria(cant de rep) * constantesDentro = constantesAntes + (n * (constantesDentro))
+                        Big O: O(n)
+                        Serie aritmetica: con i=1 to n de la funcion i = n/2 * (n+1)
+                    -while:
+                        
+                    -do-while
+
