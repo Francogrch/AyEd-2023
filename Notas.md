@@ -44,11 +44,11 @@ public class Contacto { //Clase publica Contacto
     . . .
 }
 ~~~
-#####Palabras reservadas:
+##### Palabras reservadas:
  - modificadorDeAcceo = private, public
  - tipoDatoRetorno = void (nada), int, String ...
 
-#####Tipos de Datos:
+##### Tipos de Datos:
 - Primitivos (Se guarda en STACK)
   - Entero: byte, short, int (32 bits), long (64 bits)
   - Punto flotante: float y double
@@ -59,14 +59,14 @@ public class Contacto { //Clase publica Contacto
   - nomVar = new NombreClase();
   - NombreClase nomVar = new NombreClase();
 
-#####Valor por defecto en variables de instancia:
+##### Valor por defecto en variables de instancia:
 - boolean = false;
 - char = '\uoooo' (nulo);
 - byte/short/int/long = 0;
 - float/double = 0.0;
 - objeto = null;
 
-####Clases wrappers 
+#### Clases wrappers 
 Clases de objetos con metodos por defecto ya creados dentro del paquete java.lang(ya disponible sin import):
  - primitivo = Wrapper
  - char = Character
@@ -77,7 +77,7 @@ Clases de objetos con metodos por defecto ya creados dentro del paquete java.lan
  - long = Long
  - float = Float
  - double = Double
-#####Autoboxing/Boxing-Unboxing:(cambio de tipo primitivo a wrapper)
+##### Autoboxing/Boxing-Unboxing:(cambio de tipo primitivo a wrapper)
 Antes:
 - Integer nro = new Integer(3);
 - int num = nro.intValue();
@@ -86,7 +86,7 @@ Ahora:
 - Integer nro = 3;
 - int num = nro;
 
-###new():
+### new():
 Pasos al crear instancia de objeto:
 1. Se aloca espacio para la variable
 2. Se aloca espacio para el objeto en la HEAP y se inicializan los atributos con valores por defecto.
@@ -94,7 +94,7 @@ Pasos al crear instancia de objeto:
 4. Se ejecuta el constructor (parecido a un método que tienen el mismo nombre de la clase)
 5. Se asigna la referencia del nuevo objeto a la variable.
 
-###Variables:
+### Variables:
 Variables locales a un metodo:
 - Es necesario inicializar
 - Se almacena en STACK
@@ -102,7 +102,7 @@ Variables locales a un metodo:
 Variables de instancia
 - Se almacena en HEAP
 
-##static
+## static
 **Variable static**: es una unica variable (compartida) para todas las instancia de un objeto. Una sola referencia en memoria
 
     private static int ultCont;
@@ -112,22 +112,22 @@ Variables de instancia
         return ultCont;
     }
 
-##Arreglos
+## Arreglos
 - Un objeto que hace referencia a un conjunto
 - Heterogeneos
 - Se guardan en posiciones contiguas
 - nombre.length cantidad de espacio reservado
-####Declaracion:
+#### Declaracion:
     tipoDato[] nomArr = new tipoDato[cant]; // Se reserva cant posiciones de ese tipo
 
-####Inicializacion:
+#### Inicializacion:
     nomArr[0] = x;
 
-####Declaracion/Iniciacizacion:
+#### Declaracion/Iniciacizacion:
     tipoDato[] nomArr = {new tipoDato(), new tipoDato(),new tipoDato()}
     String[] nomArr = {"example0", "example1",'example2'}
 
-####Recorridos
+#### Recorridos
 For Tradicional:
 
     for (int i=0; i<a.length;i++)
@@ -139,7 +139,7 @@ For-each:
 Matriz:
 
     int[][] notas = new int[2][3];
-####Pasaje de parametros
+#### Pasaje de parametros
 En JAVA siempre se hace una copia de los parametros reales.
 Definicion de parametros:
 - Parametros **formales**: Son los parametros en la definicion del metodo
@@ -152,7 +152,7 @@ Tipos de parametros:
 Si pasamos un tipo de dato referencial (objeto) se pueden modificar el estado mediante los setters.
 
 ------  
-##Clase 3
+## Clase 3
 **Herencia**: 
 Una clase hereda los atributos y comportamientos de otra clase
 
@@ -191,7 +191,7 @@ _Importante_: Habilitacion de metodos segun la jerarquia de herencia
         public abstract void dibujar(); //Metodo delegado a la subclase
     }
 
-###Listas
+### Listas
 **Operaciones**:
 - elemento(int pos): retorna el elemento de la posición indicada
 - incluye(Object elem): retorna true si elem está en la lista, false en caso contrario
@@ -231,7 +231,7 @@ Instanciacion:
     ListaEnlazadaGenerica<Alumno> lista = new ListaEnlazadaGenerica<Alumno>();
     lista.agregarFinal(new Alumno(“Peres, Juan”, 3459));
 
-##Clase 4
+## Clase 4
 **Definiciones**
 - _Arbol_: coleccion de nodos 
 - _Camino_: cantidad de nodos por debajo de n
@@ -305,7 +305,7 @@ Para saber el recorrido de acuerdo con solamente la secuencia de nodos, primero 
 - _Infija_ (Inorden)(hiper-parentisada por niveles/ ambigua)
 
 ----------------------
-##Clase 5
+## Clase 5
 **Diagrama UML**
 ArbolBinario\<T> (Homogeneos respecto al tipo de dato)
 - T dato;
@@ -523,7 +523,7 @@ A partir de una expresion:
             -operador con <= prioridad que el tope se desapila elemento colocándolo en la salida.
         c) si es un "(" se apila, si es ")" se desapila todo hasta el "(", incluído éste
         d) cuando se llega al final de la expresión, se desapilan todos los elementos llevándolos a la salida, hasta que la pila quede vacía
-###Arboles Generales
+### Arboles Generales
  - Grado: es el número de hijos del nodo
  - Grado del árbol: es el grado del nodo con mayor grado
  - Altura: es la longitud del camino más largo desde la raiz hasta una hoja.
@@ -648,7 +648,7 @@ A partir de una expresion:
 
 ---------
 ## Clase 7
-###Interfaces
+### Interfaces
 Es una coleccion de definiciones de metodos sin implementacion/cuerpo y de declaraciones de variables de clase cosntantes, agrupadas bajo un nombre.
 Debido a que en java la herencia de clases es simple, la herencia de interfaces es multiple.
 **Definicion**:
@@ -681,14 +681,14 @@ _Ejemplo_:
             partida(m[i]);
         }
     }
-####Interfaces vs Clases Abstractas:
+#### Interfaces vs Clases Abstractas:
 - Las interfaces y las clases abstractas proveen una interface comun
 - Las interfaces son completamente abstractas, no tienen ninguna implementacion
 - Con interfaces no hay herencia de metodos, las clases asbtractas si
 - No es posible crear instancias de clases abstractas ni de interfaces
 - Una clase puede externder solo una clase abstracta, pero puede implementar multiples interfaces
 
-####Uso de interfaces vs Uso de clases abstractas
+#### Uso de interfaces vs Uso de clases abstractas
 - Para crear una clase base con metodos sin implementacion y sin variables de instancia, es preferible usar interfaces
 - Si estamos forzados a tener implementacion o definir atributos, entonces usamos clases abstractas
 - Como Java no soporta herencia multiple de clases, si se quiere que una clase sea ademas del tipo de su superclase de otro dtipo diferete, entonces es necesario usar interfaces
@@ -754,8 +754,8 @@ _Ejemplo_:
         }
 
 ------
-##Clase 8
-###Arboles Generales
+## Clase 8
+### rboles Generales
 - Atributos:
     - dato:T
     - hijos: ListaGenerica<ArbolGeneral\<T>>
@@ -916,7 +916,7 @@ _Ejemplo_:
 
 -----
 ## Clase 9
-###Cola de prioridad
+### Cola de prioridad
 Es una estructura de datos que permite al menos dos **operaciones**:
 - Insert: insertar un elemento
 - DeleteMin: Encuentra, recupera y elimina el elemento minimo (el elemento con mas prioridad)
@@ -1042,9 +1042,9 @@ Es una estructura de datos que permite al menos dos **operaciones**:
     - DeleteMin(H)
 
 -----                                     
-##Clase 10
+## Clase 10
 
-###Heap:
+### Heap:
 Arbol binario completo (lleno hasta la altura h-1 y se completa de izquierda a derecha) que cumple propiedad de orden.
 - MinHeap: Para cada nodo, el valor que contenga es menor que los hijos.
 
