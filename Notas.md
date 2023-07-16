@@ -102,7 +102,7 @@ Variables locales a un metodo:
 Variables de instancia
 - Se almacena en HEAP
 
-## static
+### static
 **Variable static**: es una unica variable (compartida) para todas las instancia de un objeto. Una sola referencia en memoria
 
     private static int ultCont;
@@ -112,7 +112,7 @@ Variables de instancia
         return ultCont;
     }
 
-## Arreglos
+### Arreglos
 - Un objeto que hace referencia a un conjunto
 - Heterogeneos
 - Se guardan en posiciones contiguas
@@ -755,7 +755,7 @@ _Ejemplo_:
 
 ------
 ## Clase 8
-### rboles Generales
+### Arboles Generales
 - Atributos:
     - dato:T
     - hijos: ListaGenerica<ArbolGeneral\<T>>
@@ -1117,7 +1117,9 @@ Algoritmo:
 ### Analisis de algoritmos
 
 Nos permite comparar algoritmos en forma independiente de una plataforma en particular
+
 Mide la eficiencia de un algoritmo, dependiendo del tamanio de entrada
+
 Pasos:
 - Caracterizar los datos de entrada del algoritmo
 - Identificar las operaciones abstractas, sobre las que se basa el algoritmo
@@ -1130,10 +1132,20 @@ Pasos:
 - Siempre el tiempo en el peor de los casos
 - Debemos enfocarnos en cuan rapido crece una funcion T(n) respecto al tamanio de la entrada. A esto lo llamamos la tasa o velocidad de crecimiento del tiempo de ejecucion
   
+Al descartar los términos menos significativos y los coeficientes constantes, podemos enfocarnos en la parte importante del tiempo de ejecución de un algoritmo, su tasa o velocidad de crecimiento, sin involucrarnos en detalles que complican nuestro entendimiento.
+Cuando descartamos los coeficientes constantes y los términos menos significativos, usamos notación asintótica.
+
 **Ordenes de ejecucion de los algoritmos**:
+
+Este conjunto de funciones en general es suficiente para describir la tasa de crecimiento de los algoritmos típicos
+
+- Constante: x
 - Logaritmico: log2(n)
 - Lineal: n 
+- n Log n: n log n
 - Cuadratico: n^2
+- Cubica: n^3
+- Exponencial: c^n ,c > 1
 
 **Funciones** para describir tasas de crecimiento de los algoritmos: exponencial, cubica, cuadratica, lineal ritmica, lineal, logartimica, constante
 
@@ -1149,21 +1161,100 @@ Siempre vamos a precisar tres parametros:
 
 
 **Calculo del tiempo de Ejecicion**:
-- Cada operacion de asignacion y operacion elementar toma un paso
+- Cada operacion de asignacion y operacion elemental (aritmetica o logica) toma un paso
     **Estructuras de control**:
     - Secuencia:
-
+        Se suma cada operacion de asignacion y operacion elemental
     - Condicional:
         - if/else: Se suma el tiempo que se tarda en evaluar la condicion y el tiempo maximo entre la cantiad de operaciones del if y el else
-            - T(condicion) + max(T(statement1)
+            - T(condicion) + max(T(statements))
         - switch:
-            - T(condicion) + max(T(con todos los casos)
+            - T(condicion) + max(T(con todos los casos))
     - Iteracion:
-        - for:  
+        - for (initialization; termination; increment) { statement(s) }: 
+          - Cuanto tiempo demanda hacer los statements. 
+          - Ejemplo:
+ 
+                        int sum = 0; //constatesAntes
+                        int [] a = new int [n]; //constatesAntes
+                        for (int i =1; i<= n ; i++ )
+                            sum += a[i]; 
+             T(n) = constatesAntes + sumatoria(i hasta n) * constantesDentro = constantesAntes + (n * (constantesDentro))
+          -  Big O: O(n) = Formula de Serie aritmetica: con i=1 to n de la funcion i = n/2 * (n+1)
+          - Siempre tratar de llevar i = 1
+        - while (boolean expression) {statement(s)}
+          - Cuanto tiempo tarda en hacer los statements
+          - Ejemplo:
+           
+                    int x= 0; 
+                    int i = 1;
+                    while ( i <= n) {
+                        x = x + 1;
+                        i = i + 2;
+                    }
+            T(n) = cte1 + sumatoria(de i =1 hasta (n+1)/2) cte2 = cte1 +cte2/2 * (n+1)
+            
             Big O: O(n)
-            Serie aritmetica: con i=1 to n de la funcion i = n/2 * (n+1)
-            - T(n) = constatesAntes + sumatoria(cant de rep) * constantesDentro = constantesAntes + (n * (constantesDentro))
-        - while:
 
-        -do-while
+                int x= 1;
+                while ( x < n)
+                    x = 2 * x;
+            
+            T(n) = cte1 + cte2 * log(n) -> O(log(n))
+ 
+    - Recursivos:
+        - Se plantea funcion de recurrencia de tiempo de ejecucion
+          - Cunto vale la funcion en en caso base, y cuanto en el caso recursivo
+           
+           Factorial(n)
 
+                  |    cte1           n=1 // Caso base
+              T(n)|
+                  |    cte2 + T(n-1)  n>1 // Caso recursivo
+
+           
+       - Se analiza el comportamiento de la funcion
+      
+
+          T(n) = T(n-1) + cte = T(n-2) + 2cte = T(n-3) + 3cte = T(n-4) + 4cte
+       
+      - Se busca la forma de la funcion en un paso general
+    
+          T(n) = T(n-i) + i.cte 
+
+          - Igualo el argumento con la condicion del caso base
+
+                  n-i = 1 // Termina
+                  i = n-1
+          
+          - Reemplazo
+
+                  T(n) = T(n-n-1) + (n-1).cte
+                  T(n) = T(1) + 
+                  T(n) = cte1 + (n-1).cte2
+
+## Clase 13
+#### Notacion Big-Oh:
+    
+        Decimos que T(n) = O(f(n)) si existen constantes c > 0 y n0 tales que:
+
+        T(n) ≤ c f(n) para todo n ≥ n0
+
+        Se lee: T(n) es de orden de f(n)
+
+        f(n) representa una cota superior de T(n)
+        La tasa de crecimiento de T(n) es menor o igual que la de f(n)
+    
+Como la notación O grande solamente da una cota asintótica superior, y no una cota asintóticamente ajustada, podemos hacer declaraciones que en primera instancia parecen incorrectas, pero que son técnicamente correctas.
+
+Por ejemplo, es absolutamente correcto decir que la búsqueda binaria se ejecuta en un tiempo O(n). Eso es porque el tiempo de ejecución crece no más rápido que una constante multiplicada por n. De hecho, crece más despacio.
+
+Reglas:
+- Regla de la suma: T1(n)+T2 (n)=max(O(f(n)),O(g(n)))
+- Regla del producto: T1(n)*T2 (n)=O(f(n)*g(n))
+- T(n) es un polinomio de grado k ⇒ T(n) = O(nk)
+- T(n) = log^k(n) ⇒ O(n) para cualquier k (n siempre crece más rápido que cualquier potencia de log(n))
+- T(n) = cte ⇒ O(1)
+- T(n) = cte * f(n) ⇒ T(n) = O( f(n) )
+    
+#### Algoritmos recursivos vs. iterativos
